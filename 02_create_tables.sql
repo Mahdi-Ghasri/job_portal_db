@@ -1,0 +1,55 @@
+-- 1. Users
+CREATE TABLE users (
+    id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    name VARCHAR(40) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    phone VARCHAR(15)
+);
+
+-- 2. Companies
+CREATE TABLE companies (
+id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+name VARCHAR(60) NOT NULL,
+web VARCHAR(100),
+city VARCHAR(30)
+);
+
+-- 3. Skills
+CREATE TABLE skills (
+id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+name VARCHAR(40) NOT NULL UNIQUE
+);
+
+-- 4. Jobs
+CREATE TABLE jobs (
+id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+company_id INTEGER NOT NULL REFERENCES companies(id),
+title VARCHAR(60) NOT NULL,
+description TEXT,
+salary NUMERIC(10, 2)
+);
+
+-- 5. Applications
+CREATE TABLE applications (
+id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+user_id INTEGER NOT NULL REFERENCES users(id),
+job_id INTEGER NOT NULL REFERENCES jobs(id),
+status VARCHAR(15) NOT NULL DEFAULT 'pending',
+apply_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+UNIQUE (user_id, job_id)
+);
+
+-- 6. User Skills
+CREATE TABLE user_skills (
+user_id INTEGER NOT NULL REFERENCES users(id),
+skill_id INTEGER NOT NULL REFERENCES skills(id),
+PRIMARY KEY (user_id, skill_id)
+);
+
+-- 7. Job Skills
+CREATE TABLE job_skills (
+job_id INTEGER NOT NULL REFERENCES jobs(id),
+skill_id INTEGER NOT NULL REFERENCES skills(id),
+PRIMARY KEY (job_id, skill_id)
+);
