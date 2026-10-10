@@ -1,0 +1,15 @@
+# Environment variables
+.env
+
+## Python
+--pycache--/
+ *.py[cod]
+  .venv/ 
+  venv/
+
+# Local database files
+*.dump
+ *.backup
+
+# IDE
+.vscode/
